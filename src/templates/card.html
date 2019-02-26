@@ -1,0 +1,21 @@
+{% macro camera_card(id, name, fl, z, x) -%}
+{% set x = 1451-x%}
+    <div class="cam-card-container" id="card_{{id}}" data-z="{{z|int}}" data-x="{{x|int}}">
+        <div class="top"></div>
+        <div class="image" style="background-image: url(../static/images/{{name}}.jpg);"></div>
+        <div class="info">
+            <div class="right">
+                <p>ID:</p>
+                <p>name:</p>
+                <p>focal length:</p>
+                <p>Pos:</p>
+            </div>
+            <div class="left">
+                <p>{{id}}</p>
+                <p>{{name|replace("_", " ")}}</p>
+                <p>{{fl|int}}mm</p>
+                <p>{{x|int}} x {{z|int}}cm</p>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}

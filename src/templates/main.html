@@ -1,0 +1,75 @@
+<html>
+
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+</head>
+<body>
+
+
+<div class="content">
+        <div class="cam-list">
+        {% from "card.html" import camera_card as cc %}
+            {% for grp in cameras %}
+            <h4>{{grp.name|replace("grp", "")|replace("_", " ")}}</h4>
+                {% for i in grp.data %}
+                    {{ cc(i["id"], i["name"], i["focal length"], i['z'], i['x']) }}
+                {% endfor %}
+            {% endfor %}
+
+    </div>
+
+    {% set size = 0.75 %}
+
+
+    <div class="master-scene" style="width: {{grid['w']*size}}px; height: {{grid['h']*size}}px; ">
+        <h4>Room layout</h4>
+        <div class="layout" style="background-color: yellow;">
+
+            {% for grp in cameras %}
+                {% for i in grp.data %}
+                <div style="width: 36%; height: auto; position: absolute; left: {{ i['z']/grid['w']*100 }}%; top:{{i['x']/grid['h']*100}}%; ">
+                    {% set r = 360-(i['rotation']-90)%}
+                        <img class="camera-img" style="transform: translatex(-58%) translateY(-92%) rotate({{r}}deg);"src="../static/images/camera{% if 'blackjack' in grp.name %}_bj{%endif%}.svg">
+                    </p>
+                </div>
+            {% endfor %}
+            {% endfor %}
+
+            <div  style="
+            width: auto;
+            position: absolute;
+            left: {{(wheel['z'] - wheel['radius'])/grid['w']*100}}%;
+            top:{{(wheel['x'] - wheel['radius'])/grid['h']*100}}%;
+            z-index:-1;">
+                    <img style="
+                                transform: translatex(4%) translatey(-25%) rotate(-27deg);
+                                position: relative;
+                                transform-origin: right;
+                               width: {{size*100}}%;"
+                         src="../static/images/roulette_table.svg">
+            </div>
+            <div class="measurements" id="m" style="position: absolute; bottom: 0px; left:0px; width: 25%; height: 17%;"><p style="transform: rotate(90deg)">{{grid['w']*0.25}}cm</p></div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+$('.cam-card-container').mouseover(function() {
+    var x = $(this).attr("data-x") / $(".master-scene").attr("height");
+    $( '#m' ).css("height", x);
+
+    var z = $(this).attr("data-z");
+    $( '#m' ).css("width", z);
+
+   console.log($(this).attr("data-z"));
+});
+</script>
+</body>
+</html>
