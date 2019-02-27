@@ -1,6 +1,6 @@
 {% macro camera_card(id, name, fl, z, x) -%}
 {% set x = 1451-x%}
-    <div class="cam-card-container" id="card_{{id}}" data-z="{{z|int}}" data-x="{{x|int}}">
+    <div class="cam-card-container" id="{{id}}" data-z="{{z|int}}" data-x="{{x|int}}">
         <div class="top"></div>
         <div class="image" style="background-image: url(../static/images/{{name}}.jpg);"></div>
         <div class="info">
